@@ -54,7 +54,7 @@ namespace day_09
 
         public int GetSize(int x, int y)
         {
-            // if visited or out of boundry: return
+            // if visited or out of boundary: return
             if (_visited[x][y] || _data[x][y] == Outer)
             {
                 return 0;
