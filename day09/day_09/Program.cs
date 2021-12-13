@@ -18,6 +18,7 @@ namespace day_09
             //    .Select(line => line.AsEnumerable().ToList())
             //    .ToList();
 
+            // Part 1
             var riskLevel = 0;
             for (int i = 0; i < data.Count; i++)
             {
@@ -37,6 +38,22 @@ namespace day_09
             }
 
             Console.WriteLine(riskLevel);
+
+            // Part 2
+            var basin = new Basins
+            {
+                Inner = '1',
+                Outer = '0'
+            };
+            var sizes = basin.FindAllSizes();
+            var sum = 1;
+            foreach (var size in sizes.OrderByDescending(b => b).Take(3))
+            {
+                sum *= size;
+                Console.WriteLine(size);
+            }
+
+            Console.WriteLine($"multiply: {sum}");
         }
     }
 }
