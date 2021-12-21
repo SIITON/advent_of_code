@@ -1,5 +1,3 @@
-import sys
-
 data = open('input.txt').read().split('\n')
 #data = open('testinput.txt').read().split('\n')
 
