@@ -1,0 +1,41 @@
+w = w,  x,y,z = 0
+x = 0
+x = x+z = 0
+x = x % 26 = 0
+z = z / 1 = 0
+x = x + 12 = 12
+is x == w ? no, because w = single digit -> x = 0
+is x == 0, yes -> x = 1
+y = y * 0 = 0
+y = y + 25 = 25
+y = y * x = 25 * 1 = 25
+y = y + 1 = 25 + 1 = 26
+z = z * y = 0 * 26 = 0
+y = y * 0 = 0
+y = y + w = 0 + w = w
+y = y + 4 = w + 4
+y = y * x = (w + 4)*x = w + 4
+z = z + y = 0 + (w + 4)*x = w + 4
+NEXT, w1 = input[1] = w1
+x = 0
+x = z = w + 4 (from last)
+x = (w + 4) % 26  ( mod 26 prob does nothing here)
+z = z / 1 = z
+x = x + 11 = 11 + (w + 4) % 26
+is x == w ? no, x = 0
+is x == 0 ? yes, x == 1
+reset y = 0
+y = 25
+y = y * x = 25
+y = y + 1 = 26
+z = z * y = (w + 4) * 26 (w from before)
+reset y, y = 0
+y = w1 (w from now)
+y = w1 + 10
+y = (w1 + 10)*x = w1 + 10
+z = z + y = (w + 4)*26 + w1 + 10
+NEXT, w2 = input[2]
+
+
+
+

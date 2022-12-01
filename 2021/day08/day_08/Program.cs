@@ -15,7 +15,7 @@ namespace day_08
 
             var theTerminator = new SignalDeterminator();
             theTerminator.Input = input;
-            var count = theTerminator.Decode(s => s is 2 or 3 or 4 or 7);
+            var count = theTerminator.DecodeByLength(s => s is 2 or 3 or 4 or 7);
 
             Console.WriteLine(count);
 
