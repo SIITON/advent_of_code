@@ -34,3 +34,4 @@ for deal in data:
     total_score += game_score[(opponent, response)]
 # Part 2:  16862
 print("Part 2: ", total_score)
+
