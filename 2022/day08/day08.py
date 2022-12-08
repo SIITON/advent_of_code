@@ -1,20 +1,3 @@
-class Tree:
-    def __init__(self, height:int, position:tuple):
-        self.height = height
-        self.position = position
-        self.visible_from = {}
-        self.vector = [(-1, 0), (0, 1), (1, 0), (0, -1)]
-
-    def set_as_visible_from(self, position):
-        self.visible_from[position] = True
-
-    def is_visible(self, from_position):
-        if self.visible_from.__contains__(from_position):
-            return True
-        return False
-
-
-
 data = open('input.txt').read().split("\n")
 
 # Tree is visible if all trees between it and an edge of the grid are shorter than it
