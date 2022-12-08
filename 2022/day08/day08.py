@@ -1,23 +1,23 @@
+import matplotlib.pyplot as plt
+
 data = open('input.txt').read().split("\n")
 
 # Tree is visible if all trees between it and an edge of the grid are shorter than it
 # only look up, down, left or right
 # The edge is visible
 # How many trees are visible from outside the grid?
-# +-----> x (cols)
+# +-----> y (cols)
 # |
-# +---. <-- data[x][y] (visible if the line towards edge is < height)
+# +---+ <-- data[x][y] (visible if the line towards edge is < height)
 # V
-# y (rows)
-visible = {}
+# x (rows)
 
-edge_width = 1
-x_min, x_max = edge_width, len(data[0]) - edge_width
-y_min, y_max = edge_width, len(data) - edge_width
 
 vec = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 visible_count = 0
 render = []
+render_points_x = []
+render_points_y = []
 for x in range(len(data)):
     render_line = ''
     for y in range(len(data[0])):
@@ -43,9 +43,11 @@ for x in range(len(data)):
                 break
         if tree_is_visible:
             render_line += '+'
+            render_points_x.append(x)
+            render_points_y.append(y)
             visible_count += 1
         else:
-            render_line += '-'
+            render_line += ' '
     render.append(render_line)
 
 for line in render:
@@ -78,7 +80,7 @@ for x in range(len(data)):
             tree_score *= view_distance
         scenic_score = max(scenic_score, tree_score)
         if scenic_score == tree_score:
-            print("score:", tree_score)
+            #print("score:", tree_score)
             render_line += '+'
             perfect_spot = (x, y)
         else:
@@ -86,8 +88,25 @@ for x in range(len(data)):
 
     render.append(render_line)
 
-for line in render:
-    print(line)
+#for line in render:
+#    print(line)
 
 # Part 2: Scenic score = 209880 at (53, 22)
 print("Part 2: Scenic score =", scenic_score, "at", perfect_spot)
+# +-----> y (cols)          y
+# |                         A
+# +---+ (x,y)        --->   |   . (x', y')
+# V                         +-----> x
+# x (rows)
+
+# x' = y
+# y' = x.reverse()
+x_plot = render_points_y
+render_points_x.reverse()
+y_plot = render_points_x
+fig = plt.figure()
+axs = fig.add_subplot()
+plt.scatter(x=x_plot, y=y_plot)
+plt.scatter(x=perfect_spot[1], y=perfect_spot[0])
+axs.set_aspect('equal', adjustable='box')
+plt.show()
