@@ -24,13 +24,9 @@ def close_together(h, t):
     return touching
 
 
-def direction_towards(h, from_t):
-    vector = (h - from_t)/np.linalg.norm(h - from_t)
-    x = vector[0]
-    y = vector[1]
-    if abs(x) == 1 or abs(y) == 1:  # We are horizontal
-        return np.round(vector)
-    return np.sign(vector)  # so that we always move diagonally, and in full steps
+def direction_towards(h, t):
+    vector = (h - t) / np.linalg.norm(h - t)
+    return np.sign(vector)
 
 
 def print_points(h, t):
@@ -63,10 +59,14 @@ def print_points(h, t):
 data = open('input.txt').read().split("\n")
 start = np.array((0, 0))
 visited_points = {}
+visited_points_last_tail = {}
 vec = [(-1, 0), (0, 1), (1, 0), (0, -1)]  # (x', y') [L, U, R, D]
 direction = {'L': vec[0], 'U': vec[1], 'R': vec[2], 'D': vec[3]}
 H_pos = start.copy()
 T_pos = start.copy()
+exT_pos = np.array([start.copy(), start.copy(), start.copy(),
+                    start.copy(), start.copy(), start.copy(),
+                    start.copy(), start.copy(), start.copy()])
 h_visited_x = []
 h_visited_y = []
 visited_points_x = []
@@ -75,7 +75,7 @@ for line in data:
     commands = line.split()
     d_vec = direction[commands[0]]
     steps = int(commands[1])
-    print("== ", commands, "==")
+    #print("== ", commands, "==")
     for step in range(steps):
         # Move H
         H_pos += d_vec
@@ -83,27 +83,35 @@ for line in data:
             # Move T towards H
             d = direction_towards(H_pos, T_pos)
             T_pos += np.array([int(d[0]), int(d[1])])
+        if not close_together(H_pos, exT_pos[0]):
+            # Move T towards H
+            d = direction_towards(H_pos, exT_pos[0])
+            exT_pos[0] += np.array([int(d[0]), int(d[1])])
+        for head in range(len(exT_pos) - 1):
+            if not close_together(exT_pos[head], exT_pos[head + 1]):
+                d = direction_towards(exT_pos[head], exT_pos[head + 1])
+                exT_pos[head + 1] += np.array([int(d[0]), int(d[1])])
         h_visited_x.append(H_pos[0])
         h_visited_y.append(H_pos[1])
         visited_points_x.append(T_pos[0])
         visited_points_y.append(T_pos[1])
         visited_points[(T_pos[0], T_pos[1])] = True
-        #print_points(H_pos, T_pos)
-        print("--Step--")
+        visited_points_last_tail[(exT_pos[-1][0], exT_pos[-1][1])] = True
+        # print_points(H_pos, T_pos)
+        # print("--Step--")
 
 visited = len(visited_points)
+last_tail_visited = len(visited_points_last_tail)
 # Part 1: 5907
+# Part 2: 2303
 print("Part 1:", visited)
-
+print("Part 2:", last_tail_visited)
 
 fig = plt.figure()
 axs = fig.add_subplot()
 plt.scatter(x=start[0], y=start[1])
 plt.scatter(x=visited_points_x, y=visited_points_y)
-#plt.scatter(x=h_visited_x, y=h_visited_y)
+# plt.scatter(x=h_visited_x, y=h_visited_y)
 plt.legend(["Start", "T"])
 axs.set_aspect('equal', adjustable='box')
 plt.show()
-
-
-
