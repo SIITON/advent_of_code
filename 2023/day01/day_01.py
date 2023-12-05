@@ -36,11 +36,9 @@ def solve_part_two(data):
                 idx_to_num[idx] = value
             idx += 1
         num_to_idx = {}
-        text = []
         for i in range(1, 10):
             index = line.find(num_to_str[i])
             index_right = line.rfind(num_to_str[i])
-            # indexes[i] = line.find(num_to_str[i])
             if index != -1:
                 num_to_idx[i] = index
                 idx_to_num[index] = i
